@@ -1,14 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ConvertDoc.Services;
 
 namespace ConvertDoc
 {
     public class Program
     {
-        public static void Main(string[] args)
+        private static List<String> _kind;
+
+        public static void Main(String[] args)
         {
+            _kind = new List<String>();
+            var service = new JsonSerializationService();
+            var filePath = @"D:\Development\GitHub\ldd3\docs.json";
+            var result = service.Deserialize<Descriptor>(filePath);
+            AddKind(result);
+            foreach (var s in _kind)
+            {
+                Console.WriteLine(s);
+            }
+            var mds = new MarkdownExportService();
+            mds.Export(result, @"d:\tmp");
+            Console.ReadLine();
+        }
+
+        private static void AddKind(Descriptor descriptor)
+        {
+            var formattableString = $"{descriptor.Kind} {descriptor.KindString}";
+            if (!_kind.Contains(formattableString))
+            {
+                _kind.Add(formattableString);
+            }
+            if (descriptor.Children != null)
+            {
+                foreach (var child in descriptor.Children)
+                {
+                    AddKind(child);
+                }
+            }
         }
     }
 }

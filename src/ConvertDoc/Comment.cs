@@ -4,6 +4,7 @@ namespace ConvertDoc
 {
     public class Comment
     {
-        public String shortText { get; set; }
+        public String ShortText { get; set; }
+        public TagClass[] Tags { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace ConvertDoc
 {
-    public class Tag
+    public class TagClass
     {
-        public String tag { get; set; }
-        public String text { get; set; }
+        public String Tag { get; set; }
+        public String Text { get; set; }
     }
 }

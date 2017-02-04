@@ -9,7 +9,7 @@ namespace ConvertDoc
         public Int32 Kind { get; set; }
         public String KindString { get; set; }
         public Flags Flags { get; set; }
-        public Comment2 comment { get; set; }
+        public Comment Comment { get; set; }
         public Parameter[] Parameters { get; set; }
         public TypeClass Type { get; set; }
     }
