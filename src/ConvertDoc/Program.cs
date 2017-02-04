@@ -14,30 +14,10 @@ namespace ConvertDoc
             var service = new JsonSerializationService();
             var filePath = @"D:\Development\GitHub\ldd3\docs.json";
             var result = service.Deserialize<Descriptor>(filePath);
-            AddKind(result);
-            foreach (var s in _kind)
-            {
-                Console.WriteLine(s);
-            }
             var mds = new MarkdownExportService();
             mds.Export(result, @"D:\Development\GitHub\ldd3\docs");
             Console.ReadLine();
         }
-
-        private static void AddKind(Descriptor descriptor)
-        {
-            var formattableString = $"{descriptor.Kind} {descriptor.KindString}";
-            if (!_kind.Contains(formattableString))
-            {
-                _kind.Add(formattableString);
-            }
-            if (descriptor.Children != null)
-            {
-                foreach (var child in descriptor.Children)
-                {
-                    AddKind(child);
-                }
-            }
-        }
+        
     }
 }
