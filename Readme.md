@@ -1,0 +1,1 @@
+This projects intends to convert json output file from TypeDoc to a GitHub wiki frinedly format.
