@@ -20,7 +20,7 @@ namespace ConvertDoc
                 Console.WriteLine(s);
             }
             var mds = new MarkdownExportService();
-            mds.Export(result, @"d:\tmp");
+            mds.Export(result, @"D:\Development\GitHub\ldd3\docs");
             Console.ReadLine();
         }
 
