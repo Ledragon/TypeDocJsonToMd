@@ -72,6 +72,7 @@ namespace ConvertDoc.Services
                     if (this._actions.ContainsKey(child.Kind))
                     {
                         this._actions[child.Kind](child, stringBuilder);
+                        stringBuilder.AppendLine();
                     }
                 }
             }
@@ -86,20 +87,18 @@ namespace ConvertDoc.Services
                 stringBuilder.AppendLine($"{descriptor.Comment.ShortText}");
             }
             this.PrintChildren(descriptor.Children, stringBuilder);
-            stringBuilder.AppendLine();
         }
 
         private void PrintClass(Descriptor descriptor, StringBuilder stringBuilder)
         {
+            //stringBuilder.AppendLine();
             var name = descriptor.Name;
-
             stringBuilder.AppendLine($"## Class {name}");
             if (descriptor.Comment != null)
             {
                 stringBuilder.AppendLine($"{descriptor.Comment.ShortText}");
             }
             this.PrintChildren(descriptor.Children, stringBuilder);
-            stringBuilder.AppendLine();
         }
 
         private void PrintConstructor(Descriptor descriptor, StringBuilder stringBuilder)
@@ -118,35 +117,41 @@ namespace ConvertDoc.Services
             {
                 foreach (var signature in descriptor.Signatures)
                 {
-                    if (signature.Comment != null)
-                    {
-                        stringBuilder.AppendLine($"{signature.Comment.ShortText}");
-                    }
-                    stringBuilder.AppendLine();
-                    var parameters = signature.Parameters != null
-                        ? String.Join(", ", signature.Parameters?.Select(p => $"{p.Name}: {PrintTypeArg(p.Type)}"))
-                        : String.Empty;
-                    stringBuilder.AppendLine($"Usage: `{signature.Name}({parameters})`");
-                    if (signature.Parameters != null)
-                    {
-                        stringBuilder.AppendLine();
-                        foreach (var parameter in signature.Parameters)
-                        {
-                            stringBuilder.AppendLine(
-                                $"* {parameter.Name} - {parameter.Type?.Name}: {parameter.Comment?.ShortText}");
-                        }
-                    }
-                    var typeClass = signature.Type;
-                    if (typeClass != null)
-                    {
-                        var typeArg = PrintTypeArg(typeClass);
-                        stringBuilder.AppendLine($"Return type: {typeArg}");
-                    }
+                    PrintSignature(signature, stringBuilder);
                 }
             }
 
             this.PrintChildren(descriptor.Children, stringBuilder);
+        }
 
+        private static void PrintSignature(Signature signature, StringBuilder stringBuilder)
+        {
+            if (signature.Comment != null)
+            {
+                stringBuilder.AppendLine($"{signature.Comment.ShortText}");
+            }
+            stringBuilder.AppendLine();
+            var parameters = signature.Parameters != null
+                ? String.Join(", ", signature.Parameters?.Select(p => $"{p.Name}: {PrintTypeArg(p.Type)}"))
+                : String.Empty;
+            stringBuilder.AppendLine($"Usage: `{signature.Name}({parameters})`");
+            if (signature.Parameters != null)
+            {
+                stringBuilder.AppendLine();
+                foreach (var parameter in signature.Parameters)
+                {
+                    stringBuilder.AppendLine(
+                        $"* {parameter.Name} - {parameter.Type?.Name}: {parameter.Comment?.ShortText}");
+                }
+            }
+            var typeClass = signature.Type;
+            if (typeClass != null)
+            {
+                stringBuilder.AppendLine();
+                var typeArg = PrintTypeArg(typeClass);
+                stringBuilder.AppendLine($"Return type: `{typeArg}`");
+            }
+            stringBuilder.AppendLine();
         }
 
         private static String PrintTypeArg(TypeClass typeClass)
