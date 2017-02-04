@@ -10,7 +10,7 @@ namespace ConvertDoc
         public String kindString { get; set; }
         public Flags flags { get; set; }
         public Comment1 comment { get; set; }
-        public Signature1[] signatures { get; set; }
+        public Signature[] signatures { get; set; }
         public Source[] sources { get; set; }
         public Type type { get; set; }
         public String defaultValue { get; set; }

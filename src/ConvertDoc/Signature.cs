@@ -4,12 +4,13 @@ namespace ConvertDoc
 {
     public class Signature
     {
-        public Int32 id { get; set; }
-        public String name { get; set; }
-        public Int32 kind { get; set; }
-        public String kindString { get; set; }
-        public Flags flags { get; set; }
-        public Parameter[] parameters { get; set; }
-        public TypeClass type { get; set; }
+        public Int32 Id { get; set; }
+        public String Name { get; set; }
+        public Int32 Kind { get; set; }
+        public String KindString { get; set; }
+        public Flags Flags { get; set; }
+        public Comment2 comment { get; set; }
+        public Parameter[] Parameters { get; set; }
+        public TypeClass Type { get; set; }
     }
 }

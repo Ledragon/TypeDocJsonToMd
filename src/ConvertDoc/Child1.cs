@@ -14,6 +14,6 @@ namespace ConvertDoc
         public Child2[] Children { get; set; }
         public Group[] Groups { get; set; }
         public Source[] Sources { get; set; }
-        public Signature3[] Signatures { get; set; }
+        public Signature[] Signatures { get; set; }
     }
 }

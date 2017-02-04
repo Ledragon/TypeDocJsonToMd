@@ -4,7 +4,7 @@ namespace ConvertDoc
 {
     public class Typeargument
     {
-        public String type { get; set; }
-        public String name { get; set; }
+        public String Type { get; set; }
+        public String Name { get; set; }
     }
 }
