@@ -8,7 +8,6 @@ namespace ConvertDoc.Services
 {
     public class MarkdownExportService
     {
-        //private static readonly String[] ExportedKinds = {"External module", "Class"};
         private readonly IDictionary<Int32, Action<Descriptor, StringBuilder>> _actions;
 
         public MarkdownExportService()
@@ -25,6 +24,10 @@ namespace ConvertDoc.Services
 
         public void Export(Descriptor descriptor, String outputDirectory)
         {
+            if (!Directory.Exists(outputDirectory))
+            {
+                Directory.CreateDirectory(outputDirectory);
+            }
             this.CleanDestination(outputDirectory);
 
             var stringBuilder = new StringBuilder();
@@ -91,7 +94,6 @@ namespace ConvertDoc.Services
 
         private void PrintClass(Descriptor descriptor, StringBuilder stringBuilder)
         {
-            //stringBuilder.AppendLine();
             var name = descriptor.Name;
             stringBuilder.AppendLine($"## Class {name}");
             if (descriptor.Comment != null)
@@ -109,10 +111,6 @@ namespace ConvertDoc.Services
 
         private void PrintCallable(Descriptor descriptor, StringBuilder stringBuilder)
         {
-            //if (descriptor.Comment != null)
-            //{
-            //    stringBuilder.AppendLine($"{descriptor.Comment.ShortText}");
-            //}
             if (descriptor.Signatures != null)
             {
                 foreach (var signature in descriptor.Signatures)
@@ -134,14 +132,15 @@ namespace ConvertDoc.Services
             var parameters = signature.Parameters != null
                 ? String.Join(", ", signature.Parameters?.Select(p => $"{p.Name}: {PrintTypeArg(p.Type)}"))
                 : String.Empty;
-            stringBuilder.AppendLine($"Usage: `{signature.Name}({parameters})`");
+            stringBuilder.AppendLine($"Usage: \r\n\r\n`{signature.Name}({parameters})`");
             if (signature.Parameters != null)
             {
                 stringBuilder.AppendLine();
+                stringBuilder.AppendLine($"Parameters:");
                 foreach (var parameter in signature.Parameters)
                 {
                     stringBuilder.AppendLine(
-                        $"* {parameter.Name} - {parameter.Type?.Name}: {parameter.Comment?.ShortText}");
+                        $"* {parameter.Name} - {PrintTypeArg(parameter.Type)}: {parameter.Comment?.ShortText}");
                 }
             }
             var typeClass = signature.Type;
@@ -182,5 +181,6 @@ namespace ConvertDoc.Services
             }
             this.PrintChildren(descriptor.Children, stringBuilder);
         }
+
     }
 }
